@@ -24,6 +24,15 @@ module.exports = {
             gas: 5000000,
             gasPrice: 25000000000,
             network_id: 4
+        },
+        testnet: {
+            provider: function () {
+                return new HDWalletProvider(process.env.MNEMONIC,
+                    `https://data-seed-prebsc-1-s1.binance.org:8545`, 0, 9);
+            },
+            network_id: 97,
+            gas: 5000000,
+            gasPrice: 10000000000, // 10 Gwei
         }
     },
     solc: {

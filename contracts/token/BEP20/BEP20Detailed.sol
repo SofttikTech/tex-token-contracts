@@ -1,11 +1,11 @@
 pragma solidity ^0.5.0;
 
-import "./IERC20.sol";
+import "./IBEP20.sol";
 
 /**
- * @dev Optional functions from the ERC20 standard.
+ * @dev Optional functions from the BEP20 standard.
  */
-contract ERC20Detailed is IERC20 {
+contract BEP20Detailed is IBEP20 {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
@@ -46,7 +46,7 @@ contract ERC20Detailed is IERC20 {
      *
      * NOTE: This information is only used for _display_ purposes: it in
      * no way affects any of the arithmetic of the contract, including
-     * {IERC20-balanceOf} and {IERC20-transfer}.
+     * {IBEP20-balanceOf} and {IBEP20-transfer}.
      */
     function decimals() public view returns (uint8) {
         return _decimals;

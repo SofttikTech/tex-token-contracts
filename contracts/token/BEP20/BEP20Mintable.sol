@@ -1,17 +1,17 @@
 pragma solidity ^0.5.0;
 
-import "./ERC20.sol";
+import "./BEP20.sol";
 import "../../access/roles/MinterRole.sol";
 
 /**
- * @dev Extension of {ERC20} that adds a set of accounts with the {MinterRole},
+ * @dev Extension of {BEP20} that adds a set of accounts with the {MinterRole},
  * which have permission to mint (create) new tokens as they see fit.
  *
  * At construction, the deployer of the contract is the only minter.
  */
-contract ERC20Mintable is ERC20, MinterRole {
+contract BEP20Mintable is BEP20, MinterRole {
     /**
-     * @dev See {ERC20-_mint}.
+     * @dev See {BEP20-_mint}.
      *
      * Requirements:
      *

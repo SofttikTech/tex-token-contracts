@@ -1,11 +1,11 @@
 pragma solidity ^0.5.0;
 
-// import "./token/ERC20/ERC20Detailed.sol";
-import "./token/ERC20/ERC20Mintable.sol";
-// import "./token/ERC20/ERC20Burnable.sol";
+// import "./token/BEP20/BEP20Detailed.sol";
+import "./token/BEP20/BEP20Mintable.sol";
+// import "./token/BEP20/BEP20Burnable.sol";
 
 contract TheEllipsisExchange {
-    // contract TheEllipsisExchange is ERC20Detailed {
+    // contract TheEllipsisExchange is BEP20Detailed {
     constructor(
         string memory _name,
         string memory _symbol,
@@ -28,14 +28,14 @@ contract TheEllipsisExchange {
     // INITIALIZATION DATA
     bool private initialized = false;
 
-    // ERC20 BASIC DATA
+    // BEP20 BASIC DATA
     mapping(address => uint256) internal balances;
     uint256 internal totalSupply_;
     string public constant name = "TheEllipsisExchange"; // solium-disable-line
     string public constant symbol = "TEX"; // solium-disable-line uppercase
     uint8 public constant decimals = 18; // solium-disable-line uppercase
 
-    // ERC20 DATA
+    // BEP20 DATA
     mapping(address => mapping(address => uint256)) internal allowed;
 
     // OWNER DATA
@@ -68,10 +68,10 @@ contract TheEllipsisExchange {
      * EVENTS
      */
 
-    // ERC20 BASIC EVENTS
+    // BEP20 BASIC EVENTS
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    // ERC20 EVENTS
+    // BEP20 EVENTS
     event Approval(
         address indexed owner,
         address indexed spender,
@@ -149,7 +149,7 @@ contract TheEllipsisExchange {
         initialized = true;
     }
 
-    // ERC20 BASIC FUNCTIONALITY
+    // BEP20 BASIC FUNCTIONALITY
 
     /**
      * @dev Total number of tokens in existence
@@ -187,7 +187,7 @@ contract TheEllipsisExchange {
         return balances[_addr];
     }
 
-    // ERC20 FUNCTIONALITY
+    // BEP20 FUNCTIONALITY
 
     /**
      * @dev Transfer tokens from one address to another

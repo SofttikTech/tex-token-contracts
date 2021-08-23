@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import "../../contracts/TheEllipsisExchange.sol";
 
 
-contract PAXGWithBalance is TheEllipsisExchange {
+contract TEXWithBalance is TheEllipsisExchange {
 
     function initializeBalance(address initialAccount, uint initialBalance) public {
         balances[initialAccount] = initialBalance;

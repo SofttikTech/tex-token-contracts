@@ -15,7 +15,7 @@ require('chai')
 const TheEllipsisExchange = artifacts.require("./TheEllipsisExchange.sol");
 
 
-// Tests that PAXG fee controller capabilities function correctly.
+// Tests that TEX fee controller capabilities function correctly.
 contract('Fee Controller TEX', function ([_, admin, feeController, feeRecipient, recipient, otherAddress, owner]) {
     const ownerStartingBalance = 100000000000000;
 
