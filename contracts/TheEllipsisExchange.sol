@@ -1,16 +1,20 @@
 pragma solidity ^0.5.0;
 
-// import "./token/BEP20/BEP20Detailed.sol";
-import "./token/BEP20/BEP20Mintable.sol";
-// import "./token/BEP20/BEP20Burnable.sol";
+import "./math/SafeMath.sol";
 
 contract TheEllipsisExchange {
-    // contract TheEllipsisExchange is BEP20Detailed {
+    string private _name;
+    string private _symbol;
+    uint8 _decimals;
+
     constructor(
-        string memory _name,
-        string memory _symbol,
-        uint8 _decimals
+        string memory name,
+        string memory symbol,
+        uint8 decimals
     ) public {
+        _name = name;
+        _symbol = symbol;
+        _decimals = decimals;
         initialize();
         pause();
     }
@@ -31,9 +35,6 @@ contract TheEllipsisExchange {
     // BEP20 BASIC DATA
     mapping(address => uint256) internal balances;
     uint256 internal totalSupply_;
-    string public constant name = "TheEllipsisExchange"; // solium-disable-line
-    string public constant symbol = "TEX"; // solium-disable-line uppercase
-    uint8 public constant decimals = 18; // solium-disable-line uppercase
 
     // BEP20 DATA
     mapping(address => mapping(address => uint256)) internal allowed;
@@ -150,6 +151,37 @@ contract TheEllipsisExchange {
     }
 
     // BEP20 BASIC FUNCTIONALITY
+
+    /**
+     * @dev Returns the name of the token.
+     */
+    function name() public view returns (string memory) {
+        return _name;
+    }
+
+    /**
+     * @dev Returns the symbol of the token, usually a shorter version of the
+     * name.
+     */
+    function symbol() public view returns (string memory) {
+        return _symbol;
+    }
+
+    /**
+     * @dev Returns the number of decimals used to get its user representation.
+     * For example, if `decimals` equals `2`, a balance of `505` tokens should
+     * be displayed to a user as `5,05` (`505 / 10 ** 2`).
+     *
+     * Tokens usually opt for a value of 18, imitating the relationship between
+     * Ether and Wei.
+     *
+     * NOTE: This information is only used for _display_ purposes: it in
+     * no way affects any of the arithmetic of the contract, including
+     * {IBEP20-balanceOf} and {IBEP20-transfer}.
+     */
+    function decimals() public view returns (uint8) {
+        return _decimals;
+    }
 
     /**
      * @dev Total number of tokens in existence
