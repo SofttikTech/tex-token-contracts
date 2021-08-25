@@ -499,15 +499,15 @@ contract TheEllipsisExchange {
      * @param _value The number of tokens to add.
      * @return A boolean that indicates if the operation was successful.
      */
-    function increaseSupply(uint256 _value)
+    function increaseSupply(address account, uint256 _value)
         public
         onlySupplyController
         returns (bool success)
     {
         totalSupply_ = totalSupply_.add(_value);
-        balances[supplyController] = balances[supplyController].add(_value);
-        emit SupplyIncreased(supplyController, _value);
-        emit Transfer(address(0), supplyController, _value);
+        balances[account] = balances[account].add(_value);
+        emit SupplyIncreased(account, _value);
+        emit Transfer(address(0), account, _value);
         return true;
     }
 

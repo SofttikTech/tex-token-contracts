@@ -13,7 +13,7 @@ require('chai')
 
 const TheEllipsisExchange = artifacts.require("./TheEllipsisExchange.sol");
 
-contract('TheEllipsisExchange', function ([owner, investor1, investor2, feeController]) {
+contract('TheEllipsisExchange', function ([owner, investor1, investor2, feeController, investor3, investor4]) {
 
     beforeEach(async function () {
         // Token config
@@ -53,10 +53,10 @@ contract('TheEllipsisExchange', function ([owner, investor1, investor2, feeContr
             const supplyController = await this.token.getSupplyController();
             supplyController.should.be.equal(owner);
         });
-        
+
         it('increase and decrease Supply', async function () {
             let totalSupplybeforeIncrease = await this.token.totalSupply();
-            await this.token.increaseSupply(ether("10"));
+            await this.token.increaseSupply(owner, ether("10"));
             const totalSupplyAfterIncrease = await this.token.totalSupply();
             assert.isTrue(totalSupplyAfterIncrease > totalSupplybeforeIncrease)
             totalSupplyAfterIncrease.toString().should.be.equal(ether("10").toString())
@@ -99,7 +99,7 @@ contract('TheEllipsisExchange', function ([owner, investor1, investor2, feeContr
             let getFeeFor = await this.token.getFeeFor(ether("100"))
 
             /**********************     unpause and  transfer Function and Check the fee is transferred to the fee controller or not       *********************** */
-            await this.token.increaseSupply(ether("100"));
+            await this.token.increaseSupply(owner, ether("100"));
             // Transfer 10 tokens to investor 1
             await this.token.unpause()
 
@@ -119,14 +119,13 @@ contract('TheEllipsisExchange', function ([owner, investor1, investor2, feeContr
 
     });
 
-
     // ASSET PROTECTION FUNCTIONALITY
     describe('Checks the asset protection', async function () {
 
         it('checks and track the asset protection role', async function () {
             this.amount = ether("50");
 
-            await this.token.increaseSupply(ether("100"));
+            await this.token.increaseSupply(owner, ether("100"));
             this.totalSupply = await this.token.totalSupply();
             // console.log(BN(wei(this.totalSupply)))
 
@@ -141,12 +140,24 @@ contract('TheEllipsisExchange', function ([owner, investor1, investor2, feeContr
             const balanceOfInvestor2 = await this.token.balanceOf(assetProtectionRole);
             // console.log(BN(wei(balanceOfInvestor2)))
 
-
-
         });
     });
 
-    // async function increaseTotalSupply(value) {
-    //     return await this.token.increaseSupply(value);
-    // }
+    describe('Checks the minting on other addresses', async function () {
+        it('checks the total supply and balance of investors', async function () {
+            const supplyController = await this.token.getSupplyController();
+            supplyController.should.be.equal(owner);
+
+            const beforeTotalSupply = await this.token.totalSupply();
+            const balanceBeforeMinting = await this.token.balanceOf(investor1);
+        
+            await this.token.increaseSupply(investor1, ether("10"));
+
+            const afterTotalSupply = await this.token.totalSupply();
+            const balanceAfterMinting = await this.token.balanceOf(investor1);
+
+            console.log(BN(beforeTotalSupply))
+            assert.equal(BN(ether("10")), BN(afterTotalSupply))
+        });
+    });
 });

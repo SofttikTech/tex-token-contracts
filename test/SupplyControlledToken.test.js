@@ -76,12 +76,12 @@ contract("TEX", function ([
 
             it("reverts when sender is not supply controller", async function () {
                 await assertRevert(
-                    this.token.increaseSupply(amount, { from: otherAddress })
+                    this.token.increaseSupply(otherAddress, amount, { from: otherAddress })
                 );
             });
 
             it("adds the requested amount", async function () {
-                await this.token.increaseSupply(amount, { from: owner });
+                await this.token.increaseSupply(owner, amount, { from: owner });
 
                 const balance = await this.token.balanceOf(owner);
                 assert.equal(balance, amount, "supply controller balance matches");
@@ -91,7 +91,7 @@ contract("TEX", function ([
             });
 
             it("emits a SupplyIncreased and a Transfer event", async function () {
-                const { logs } = await this.token.increaseSupply(amount, {
+                const { logs } = await this.token.increaseSupply(owner, amount, {
                     from: owner
                 });
 
@@ -109,7 +109,7 @@ contract("TEX", function ([
             it("cannot increaseSupply resulting in positive overflow of the totalSupply", async function () {
                 // issue a big amount - more than half of what is possible
                 let bigAmount = MAX_UINT256;
-                await this.token.increaseSupply(bigAmount, { from: owner });
+                await this.token.increaseSupply(owner, bigAmount, { from: owner });
                 let balance = await this.token.balanceOf(owner);
                 assert.equal(bigAmount.toString(), balance.toString());
                 // send it to another address
@@ -118,7 +118,7 @@ contract("TEX", function ([
                 assert.equal(0, balance.toNumber());
                 // try to issue more than is possible for a uint256 totalSupply
                 await assertRevert(
-                    this.token.increaseSupply(bigAmount, { from: owner })
+                    this.token.increaseSupply(owner, bigAmount, { from: owner })
                 );
                 balance = await this.token.balanceOf(owner);
                 assert.equal(0, balance.toNumber());
@@ -141,7 +141,7 @@ contract("TEX", function ([
             describe("when the supply controller has sufficient tokens", function () {
                 // Issue some tokens to start.
                 beforeEach(async function () {
-                    await this.token.increaseSupply(initialAmount, { from: owner });
+                    await this.token.increaseSupply(owner,initialAmount, { from: owner });
                 });
 
                 it("reverts when sender is not supply controller", async function () {
@@ -222,7 +222,7 @@ contract("TEX", function ([
                 let totalSupply = await this.token.totalSupply();
                 assert.equal(totalSupply, 0, "total supply starts at 0");
 
-                await this.token.increaseSupply(amount, { from: newSupplyController });
+                await this.token.increaseSupply(newSupplyController,amount, { from: newSupplyController });
                 balance = await this.token.balanceOf(newSupplyController);
                 assert.equal(balance, amount, "supply controller balance matches");
                 totalSupply = await this.token.totalSupply();
@@ -236,7 +236,7 @@ contract("TEX", function ([
             });
 
             it("prevents old supply controller from increasing and decreasing supply", async function () {
-                await assertRevert(this.token.increaseSupply(amount, { from: owner }));
+                await assertRevert(this.token.increaseSupply(owner, amount, { from: owner }));
                 await assertRevert(this.token.decreaseSupply(0, { from: owner }));
             });
 

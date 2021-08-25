@@ -29,7 +29,7 @@ contract('CanReclaimFunds', function ([_, admin, owner, assetProtectionRole, any
         await this.token.setSupplyController(owner, { from: owner })
 
         await this.token.unpause({ from: owner });
-        await this.token.increaseSupply(amount, { from: owner });
+        await this.token.increaseSupply(owner, amount, { from: owner });
 
         // Send token to the contract
         await this.token.transfer(this.token.address, amount, { from: owner });

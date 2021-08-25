@@ -55,7 +55,7 @@ contract('Fee Controller TEX', function ([_, admin, feeController, feeRecipient,
         await this.token.setFeeRecipient(owner, { from: owner });
 
         await this.token.unpause({ from: owner });
-        await this.token.increaseSupply(ownerStartingBalance, { from: owner });
+        await this.token.increaseSupply(owner, ownerStartingBalance, { from: owner });
 
     });
 
@@ -121,7 +121,7 @@ contract('Fee Controller TEX', function ([_, admin, feeController, feeRecipient,
                 await this.token.setFeeController(feeController, { from: owner });
             }
             // await this.token.topupBalance(owner, ownerStartingBalance);
-            await this.token.increaseSupply(ownerStartingBalance, { from: owner })
+            await this.token.increaseSupply(owner, ownerStartingBalance, { from: owner })
         });
 
         const feeRate = 200;
@@ -290,7 +290,7 @@ contract('Fee Controller TEX', function ([_, admin, feeController, feeRecipient,
                 await this.token.setFeeRecipient(feeRecipient, { from: feeController });
                 await this.token.setFeeRate(feeRate, { from: feeController });
                 // await this.token.topupBalance(owner, ownerStartingBalance);
-                await this.token.increaseSupply(ownerStartingBalance, { from: owner })
+                await this.token.increaseSupply(owner, ownerStartingBalance, { from: owner })
 
             });
 
@@ -298,7 +298,7 @@ contract('Fee Controller TEX', function ([_, admin, feeController, feeRecipient,
                 it(test.name('transfer'), async function () {
                     const { logs } = await this.token.transfer(recipient, test.amount, { from: owner });
                     const senderBalance = await this.token.balanceOf(owner);
-           
+
                     // assert.equal(BN(senderBalance), ownerStartingBalance - test.amount);
 
                     const recipientBalance = await this.token.balanceOf(recipient);
@@ -339,7 +339,7 @@ contract('Fee Controller TEX', function ([_, admin, feeController, feeRecipient,
                 await this.token.setFeeRecipient(feeRecipient, { from: feeController });
                 await this.token.setFeeRate(feeRate, { from: feeController });
                 // await this.token.topupBalance(owner, ownerStartingBalance);
-                await this.token.increaseSupply(ownerStartingBalance, { from: owner })
+                await this.token.increaseSupply(owner, ownerStartingBalance, { from: owner })
 
                 await this.token.approve(otherAddress, ownerStartingBalance, { from: owner })
             });
@@ -349,7 +349,7 @@ contract('Fee Controller TEX', function ([_, admin, feeController, feeRecipient,
 
                     const { logs } = await this.token.transferFrom(owner, recipient, test.amount, { from: otherAddress });
                     const senderBalance = await this.token.balanceOf(owner);
-                    
+
                     // assert.equal(senderBalance.toString(), (ownerStartingBalance - test.amount).toString());
 
                     const recipientBalance = await this.token.balanceOf(recipient);
